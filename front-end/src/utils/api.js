@@ -67,3 +67,99 @@ export async function listReservations(params, signal) {
     .then(formatReservationDate)
     .then(formatReservationTime);
 }
+
+//create reservation
+export async function createReservation(reservation, signal) {
+  const url = new URL(`${API_BASE_URL}/reservations`)
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify({data: reservation}),
+    signal
+  }
+  return await fetchJson(url, options, reservation)
+}
+
+//read reservation
+export async function readReservation(reservation, signal) {
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation.id}`)
+  return await fetchJson(url, {signal}, {})
+}
+//update reservation
+export async function updateReservation(updatedReservation, signal) {
+  const url = new URL(`${API_BASE_URL}/reservations/${updatedReservation.id}`)
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({data: updatedReservation}),
+    signal,
+  }
+  return await fetchJson(url, options, updatedReservation)
+}
+//destroy everything!!!
+export async function deleteReservation(reservationId, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservationId}`;
+  const options = { method: "DELETE", signal };
+  return await fetchJson(url, options);
+}
+
+export async function listTables(signal) {
+  const url = new URL(`${API_BASE_URL}/tables`);
+  return await fetchJson(url, { headers, signal }, [])
+}
+
+
+//create Table
+export async function createTable(table, signal) {
+  const url = new URL(`${API_BASE_URL}/tables`)
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify({data: table}),
+    signal
+  }
+  return await fetchJson(url, options, table)
+}
+
+//read reservation
+export async function readTable(table, signal) {
+  const url = new URL(`${API_BASE_URL}/tables/${table.id}`)
+  return await fetchJson(url, {signal}, {})
+}
+//update table
+export async function updateTable(updatedTable, signal) {
+  const url = new URL(`${API_BASE_URL}/tables/${updatedTable.id}`)
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({data: updatedTable}),
+    signal,
+  }
+  return await fetchJson(url, options, updatedTable)
+}
+//destroy everything!!!
+export async function deleteTable(tableId, signal) {
+  const url = `${API_BASE_URL}/tables/${tableId}`;
+  const options = { method: "DELETE", signal };
+  return await fetchJson(url, options);
+}
+
+export async function seatTable(reservationId, tableId, signal) {
+  console.log('seat table', tableId)
+  const url = new URL(`${API_BASE_URL}/tables/${tableId}/seat`)
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({data: {reservation_id: reservationId}}),
+    signal,
+  }
+  return await fetchJson(url, options)
+}
+
+export async function deleteSeatFromTable(tableId, signal) {
+  const url = `${API_BASE_URL}/tables/${tableId}/seat`;
+  const options = { method: "DELETE", signal };
+  return await fetchJson(url, options);
+}
+
+
