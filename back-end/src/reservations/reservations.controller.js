@@ -226,6 +226,17 @@ function finishedReservationsCannotBeChanged(req, res, next) {
   }
 }
 
+function validatePhoneNumber(req, res, next) {
+  const {mobile_number} = req.body.data
+  let re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+
+  if (re.test(mobile_number)) {
+    next()
+  } else {
+    next({status: 400, message: 'Must include a valid phone number'})
+  }
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
@@ -238,6 +249,7 @@ module.exports = {
     validatePropertyExists("reservation_date"),
     validatePropertyExists("reservation_time"),
     validatePropertyExists("people"),
+    validatePhoneNumber,
     validateDate,
     validateTime,
     notTuesdayValidator,
@@ -257,6 +269,7 @@ module.exports = {
     validatePropertyExists("first_name"),
     validatePropertyExists("last_name"),
     validatePropertyExists("mobile_number"),
+    validatePhoneNumber,
     validatePropertyExists("reservation_date"),
     validatePropertyExists("reservation_time"),
     validatePropertyExists("people"),
