@@ -3,10 +3,10 @@ import React, { useState } from "react";
 
 function ReservationForm({
   onSubmit,
-  initialUseState = {first_name: "", last_name: "", mobile_number: "", reservation_date: "", reservation_time: "", people: ''}
+  initialUseState = {first_name: "", last_name: "", mobile_number: "", reservation_date: "", reservation_time: "09:30", people: 0}
 }) {
     const history = useHistory()
-
+    
     function onCancel() {
         history.goBack()
     }
@@ -20,17 +20,22 @@ function ReservationForm({
     }
 
     function changeHandle(event) {
-      //console.log(event.target.value, "***********************")
-       // const { name, value } = event.target
-        // if (event.target.type === "number") {
-        //   setReservation({
-        //     ...reservation, [event.target.name]: Number(event.target.value)
-        //   })
-        // } else {
-          setReservation({ ...reservation, [event.target.name]: event.target.value }) 
-        //}
-    }
-//console.log("RESERVATION", reservation.people)
+      const { name, value } = event.target;
+      let parsedValue = value;
+  
+      // Check if the input field name is 'people' and parse its value to a number
+      if (name === 'people') {
+          parsedValue = parseFloat(value); // Parse the string value to a float
+      }
+      setReservation(reservation => ({
+          ...reservation,
+          [name]: parsedValue,
+      }));
+  }
+
+  const formattedDate = reservation.reservation_date ? new Date(reservation.reservation_date).toISOString().split('T')[0] : '';
+  
+
     return (
         <div>
           <form className='reservation-form my-4' onSubmit={submitHandle}>
@@ -65,7 +70,7 @@ function ReservationForm({
                 <label htmlFor="Mobile Number">Mobile Number</label>
                 <input
                   className="form-control"
-                  row="4"
+                  rows="4"
                   type="text"
                   required
                   placeholder="(123)456-7890"
@@ -80,12 +85,12 @@ function ReservationForm({
                 <label htmlFor="Reservation Date">Reservation Date</label>
                 <input
                   className="form-control"
-                  row="4"
+                  rows="4"
                   type="date"
                   required
                   placeholder="YYYY-MM-DD"
                   pattern="\d{4}-\d{2}-\d{2}"
-                  value={reservation.reservation_date}
+                  value={formattedDate}
                   onChange={changeHandle}
                   name="reservation_date"
                   id="reservation-date"
@@ -95,7 +100,7 @@ function ReservationForm({
                 <label htmlFor="Reservation Time">Reservation Time</label>
                 <input
                   className="form-control"
-                  row="4"
+                  rows="4"
                   type="time" 
                   placeholder="HH:MM" 
                   pattern="[0-9]{2}:[0-9]{2}"
@@ -110,7 +115,7 @@ function ReservationForm({
                 <label htmlFor="Party Size">Party Size</label>
                 <input
                   className="form-control"
-                  row="4"
+                  rows="4"
                   type="number"
                   required min="1"
                   placeholder="Party Size"

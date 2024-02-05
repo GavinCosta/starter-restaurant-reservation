@@ -26,7 +26,7 @@ async function validateTime(req, res, next) {
   const { reservation_time } = req.body.data;
 
   // Check if the time is in the format "HH:mm"
-  const timeRegex = /^\d{2}:\d{2}$/;
+const timeRegex = /^\d{2}:\d{2}(:\d{2})?$/;
 
   if (timeRegex.test(reservation_time)) {
     return next();
@@ -34,7 +34,7 @@ async function validateTime(req, res, next) {
 
   next({
     status: 400,
-    message: "reservation_time must be a valid time in the format HH:mm",
+    message: "reservation_time must be a valid time in the format HH:MM",
   });
 }
 
@@ -45,8 +45,8 @@ async function validateDate(req, res, next) {
   // Check if the date is a valid date and matches the "YYYY-MM-DD" format
   if (
     !isNaN(dateObject) &&
-    dateObject instanceof Date &&
-    /^\d{4}-\d{2}-\d{2}$/.test(reservation_date)
+    dateObject instanceof Date 
+   // && /^\d{4}-\d{2}-\d{2}$/.test(reservation_date)
   ) {
     return next();
   }

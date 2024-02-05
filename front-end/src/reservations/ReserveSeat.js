@@ -61,6 +61,7 @@ function onChangeHandler(event) {
 
   return (
     <>
+      <h1>Reserve Seat</h1>
       <nav aria-label="breadcrumb">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
@@ -73,11 +74,15 @@ function onChangeHandler(event) {
           </li>
         </ol>
       </nav>
-      <h1>Reserve Seat</h1>
       <form onSubmit={onSubmit}>
 
       <label htmlFor='table-select'>Choose a table:</label>
-      <select onChange={onChangeHandler} name='table_id' id='table-select'><option value='default'>Select Table</option>{displayTables}</select>
+      <div>
+
+      <select className='mb-3' onChange={onChangeHandler} name='table_id' id='table-select'><option value='default'>Select Table</option>{displayTables}</select>
+      </div>
+     <div>
+
       <button
                 className="btn btn-secondary mr-2"
                 onClick={onCancel}
@@ -88,6 +93,7 @@ function onChangeHandler(event) {
               <button className="btn btn-primary" type="submit">
                 Submit
               </button>
+                  </div>
                 </form>
       <ErrorAlert error={tablesError} />
     </>
