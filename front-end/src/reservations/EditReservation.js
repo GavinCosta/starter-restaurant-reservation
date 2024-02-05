@@ -48,6 +48,7 @@ const [error, setError] = useState(null)
 
   return (
     <>
+      <h1>Edit Reservation</h1>
       <nav aria-label="breadcrumb">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
@@ -60,7 +61,6 @@ const [error, setError] = useState(null)
           </li>
         </ol>
       </nav>
-      <h1>Edit Reservation</h1>
       <ErrorAlert error={error}/>
         {reservation && <ReservationForm onSubmit={handleReservationEdit} initialUseState={reservation}/>}  
     </>
